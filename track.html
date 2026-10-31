@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Track your order — The Epoxy Studio</title>
+<meta name="description" content="Track your The Epoxy Studio order.">
+<meta name="robots" content="noindex">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='14' fill='%230A6A70'/></svg>">
+<link rel="stylesheet" href="assets/css/style.css">
+<style>
+.timeline{list-style:none;margin:0;padding:0;border-left:2px solid var(--line);display:flex;flex-direction:column;gap:18px}
+.timeline li{position:relative;padding-left:20px}
+.timeline li::before{content:"";position:absolute;left:-7px;top:6px;width:12px;height:12px;border-radius:50%;background:var(--line-2)}
+.timeline li:first-child::before{background:var(--teal)}
+.timeline small{display:block;color:var(--muted)}
+.status-big{font-family:var(--display);font-size:28px;font-weight:800;margin:0}
+</style>
+</head>
+<body data-page="track">
+<a class="skip" href="#main">Skip to content</a>
+<div id="site-header"></div>
+<main id="main">
+<section class="section">
+  <div class="wrap" style="max-width:760px" >
+    <h1 class="h2" style="font-size:clamp(36px,5vw,56px);margin-bottom:12px">Track your order</h1>
+    <p class="lead" style="margin-bottom:28px">Enter the order number from your confirmation (it starts with TES-) and the mobile number you ordered with.</p>
+    <form class="panel stack" id="trackForm" novalidate style="gap:16px">
+      <div class="form-grid">
+        <div class="field"><label for="tRef">Order number</label><input class="input" id="tRef" name="ref" required placeholder="TES-…" autocomplete="off" style="text-transform:uppercase"></div>
+        <div class="field"><label for="tPhone">Mobile number</label><input class="input" id="tPhone" name="phone" type="tel" required inputmode="tel" autocomplete="tel"></div>
+      </div>
+      <button class="btn btn-primary" type="submit" style="border-radius:12px">Track</button>
+      <p class="form-msg" id="tMsg" role="alert"></p>
+    </form>
+    <div class="panel stack" id="tResult" hidden style="margin-top:24px;gap:16px" aria-live="polite"></div>
+  </div>
+</section>
+</main>
+<div id="site-footer"></div>
+<script src="data/products.js"></script>
+<script src="data/catalog.js"></script>
+<script src="assets/js/app.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const q = new URLSearchParams(location.search);
+  if (q.get('ref')) $('#tRef').value = q.get('ref');
+  $('#trackForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const ref = $('#tRef').value.trim().toUpperCase(), phone = $('#tPhone').value.trim();
+    const msg = $('#tMsg'), out = $('#tResult'), btn = $('#trackForm button');
+    msg.textContent = ''; out.hidden = true;
+    if (!ref || !phone) { msg.className = 'form-msg err'; msg.textContent = 'Please enter both your order number and mobile number.'; return; }
+    btn.disabled = true; btn.textContent = 'Checking…';
+    try {
+      const r = await fetch(`${SITE.api}/track?ref=${encodeURIComponent(ref)}&phone=${encodeURIComponent(phone)}`);
+      const d = await r.json();
+      if (d.configured === false) throw new Error(`Live tracking isn't switched on yet. <a href="${waLink('Hi! Can you tell me the status of order ' + ref + '?')}">Ask us on WhatsApp</a> and we'll reply with an update.`);
+      if (!r.ok) throw new Error(esc(d.error || 'Something went wrong.'));
+      const etd = d.etd ? new Date(String(d.etd).replace(' ', 'T')) : null;
+      out.innerHTML = `
+        <span class="muted">Order ${esc(ref)}</span>
+        <p class="status-big">${esc(d.status || 'Processing')}</p>
+        ${etd && !isNaN(etd) ? `<p style="margin:0">Expected delivery: <strong>${etd.toLocaleDateString('en-IN', { weekday: 'long', day: 'numeric', month: 'long' })}</strong></p>` : ''}
+        ${d.courier ? `<p class="muted" style="margin:0">${esc(d.courier)}${d.awb ? ` · AWB ${esc(d.awb)}` : ''}</p>` : '<p class="muted" style="margin:0">We\u2019re packing your order. Courier details appear here once it\u2019s picked up.</p>'}
+        ${d.trackUrl ? `<a class="btn btn-outline" href="${esc(d.trackUrl)}" target="_blank" rel="noopener" style="align-self:flex-start">Open courier tracking</a>` : ''}
+        ${d.events && d.events.length ? `<ol class="timeline">${d.events.map((ev) => `<li><strong>${esc(ev.text)}</strong><small>${esc(ev.date)}${ev.place ? ' · ' + esc(ev.place) : ''}</small></li>`).join('')}</ol>` : ''}`;
+      out.hidden = false;
+    } catch (err) { msg.className = 'form-msg err'; msg.innerHTML = err.message; }
+    finally { btn.disabled = false; btn.textContent = 'Track'; }
+  });
+  if (q.get('ref')) $('#tPhone').focus();
+});
+</script>
+</body>
+</html>

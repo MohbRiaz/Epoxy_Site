@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Checkout — The Epoxy Studio</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='14' fill='%230A6A70'/></svg>">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body data-page="checkout">
+<a class="skip" href="#main">Skip to content</a>
+<div id="site-header"></div>
+
+<main id="main">
+<section class="section--tight">
+  <div class="wrap">
+    <h1 class="h2" style="margin-bottom:28px">Checkout</h1>
+    <div id="emptyMsg" class="empty" hidden><p>Your cart is empty.</p><a class="btn btn-primary" href="shop.html">Start shopping</a></div>
+    <div class="checkout" id="checkoutWrap">
+      <form id="coForm" novalidate>
+        <div class="panel">
+          <h2>Contact</h2>
+          <div class="form-grid">
+            <div class="field full"><label for="name">Full name</label><input class="input" id="name" name="name" required autocomplete="name"></div>
+            <div class="field"><label for="phone">Mobile number</label><input class="input" id="phone" name="phone" type="tel" required pattern="[0-9+\s]{10,14}" autocomplete="tel" inputmode="tel" placeholder="10-digit mobile"></div>
+            <div class="field"><label for="email">Email</label><input class="input" id="email" name="email" type="email" required autocomplete="email"></div>
+          </div>
+        </div>
+        <div class="panel">
+          <h2>Delivery address</h2>
+          <div class="form-grid">
+            <div class="field full"><label for="address">House, street, area</label><input class="input" id="address" name="address" required autocomplete="street-address"></div>
+            <div class="field"><label for="city">City</label><input class="input" id="city" name="city" required autocomplete="address-level2"></div>
+            <div class="field"><label for="state">State</label><select class="input" id="state" name="state" required autocomplete="address-level1"></select></div>
+            <div class="field"><label for="pincode">PIN code</label><input class="input" id="pincode" name="pincode" required pattern="[1-9][0-9]{5}" inputmode="numeric" autocomplete="postal-code" maxlength="6" aria-describedby="pinMsg"><span id="pinMsg" class="muted" role="status" style="font-size:13px"></span></div>
+            <div class="field full"><label for="notes">Order notes (optional)</label><input class="input" id="notes" name="notes" placeholder="Landmark, delivery instructions, gift note…"></div>
+          </div>
+        </div>
+        <div class="panel">
+          <h2>Payment</h2>
+          <label class="pay-opt" id="optOnline"><input type="radio" name="payment" value="razorpay" checked><div><strong>Pay online</strong><span>UPI, cards, net banking and wallets via Razorpay</span></div></label>
+          <label class="pay-opt" id="optCod"><input type="radio" name="payment" value="cod"><div><strong>Cash on delivery</strong><span id="codNote">Pay when your order arrives</span></div></label>
+          <p class="muted" id="payNotice" style="font-size:14px;margin:8px 0 0" hidden></p>
+        </div>
+        <input class="hp" type="text" name="company_website" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <p class="form-msg" id="coMsg" role="alert"></p>
+        <button class="btn btn-primary" type="submit" id="placeBtn" style="border-radius:12px;min-height:56px;font-size:17px">Place order</button>
+        <a class="btn btn-outline" id="waOrder" href="#" hidden style="border-radius:12px">Send this order on WhatsApp</a>
+      </form>
+
+      <aside aria-label="Order summary">
+        <h2 style="font-size:20px;margin:0">Order summary</h2>
+        <div id="sumLines"></div>
+        <div class="coupon">
+          <label for="coupon" class="sr-only">Coupon code</label>
+          <input class="input" id="coupon" placeholder="Coupon code" autocomplete="off" style="text-transform:uppercase">
+          <button class="btn btn-outline" type="button" id="applyCoupon">Apply</button>
+        </div>
+        <p class="form-msg" id="couponMsg" role="status" style="font-size:14px"></p>
+        <div id="sumTotals" class="stack" style="gap:8px"></div>
+        <p class="muted" style="font-size:13px;margin:0">Prices include GST. By placing your order you agree to our <a href="policies.html">policies</a>.</p>
+      </aside>
+    </div>
+  </div>
+</section>
+</main>
+
+<div id="site-footer"></div>
+<script src="data/products.js"></script>
+<script src="data/catalog.js"></script>
+<script src="assets/js/app.js"></script>
+<script src="assets/js/checkout.js"></script>
+</body>
+</html>

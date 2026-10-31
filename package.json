@@ -1,0 +1,19 @@
+{
+  "name": "the-epoxy-studio",
+  "version": "1.0.0",
+  "private": true,
+  "description": "The Epoxy Studio storefront — static site + serverless checkout and lead capture",
+  "scripts": {
+    "build": "node scripts/build-products.js",
+    "start": "node dev-server.js",
+    "dev": "vercel dev",
+    "test": "node tests/run.js",
+    "download-images": "node scripts/download-images.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "devDependencies": {
+    "exceljs": "^4.4.0"
+  }
+}

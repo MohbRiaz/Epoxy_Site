@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Resin calculator — how much epoxy do I need? | The Epoxy Studio</title>
+<meta name="description" content="Free epoxy resin calculator: enter your project size and get grams of resin and hardener, plus the right pack.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='14' fill='%230A6A70'/></svg>">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body data-page="calculator">
+<a class="skip" href="#main">Skip to content</a>
+<div id="site-header"></div>
+<main id="main">
+<section class="section">
+  <div class="wrap split" style="align-items:flex-start">
+    <div class="stack" style="gap:16px">
+      <span class="kicker" style="margin:0">Free tool</span>
+      <h1 class="h1" style="font-size:clamp(40px,5vw,64px)">How much resin do I need?</h1>
+      <p class="lead">Enter your project's size. We'll work out the grams of resin and hardener, tell you which resin suits the depth, and suggest the pack to buy.</p>
+      <div class="info-box" style="margin-top:8px">
+        <div><span class="ic" data-i="check"></span><span>Includes 10% extra for what stays in the cup.</span></div>
+        <div><span class="ic" data-i="check"></span><span>Always measure by weight on a digital scale, never by volume.</span></div>
+        <div><span class="ic" data-i="chat"></span><span>Big or unusual piece? <a class="wa-text" href="#">Ask us on WhatsApp</a></span></div>
+      </div>
+    </div>
+    <form class="calc" id="calc" style="border:1px solid var(--line)" novalidate>
+      <fieldset style="border:0;padding:0;margin:0" class="stack">
+        <legend style="font-weight:800;margin-bottom:8px;padding:0">1. What are you making?</legend>
+        <div class="seg" id="mode">
+          <button type="button" data-v="coating" aria-pressed="false">Coating a surface</button>
+          <button type="button" data-v="mould" aria-pressed="true">Coasters &amp; moulds</button>
+          <button type="button" data-v="casting" aria-pressed="false">Deep pour / river table</button>
+        </div>
+      </fieldset>
+      <fieldset style="border:0;padding:0;margin:0" class="stack">
+        <legend style="font-weight:800;margin-bottom:8px;padding:0">2. Shape</legend>
+        <div class="seg" id="shape">
+          <button type="button" data-v="rect" aria-pressed="true">Rectangle / square</button>
+          <button type="button" data-v="circle" aria-pressed="false">Circle</button>
+        </div>
+      </fieldset>
+      <fieldset style="border:0;padding:0;margin:0" class="stack">
+        <legend style="font-weight:800;margin-bottom:8px;padding:0">3. Size</legend>
+        <div class="form-grid" style="grid-template-columns:repeat(auto-fit,minmax(110px,1fr))">
+          <div class="field" id="fL"><label for="cl">Length (cm)</label><input class="input" id="cl" type="number" min="0" step="0.1" value="10" inputmode="decimal"></div>
+          <div class="field" id="fW"><label for="cw">Width (cm)</label><input class="input" id="cw" type="number" min="0" step="0.1" value="10" inputmode="decimal"></div>
+          <div class="field" id="fD" hidden><label for="cdia">Diameter (cm)</label><input class="input" id="cdia" type="number" min="0" step="0.1" value="10" inputmode="decimal"></div>
+          <div class="field"><label for="cdep">Depth (mm)</label><input class="input" id="cdep" type="number" min="0" step="0.5" value="8" inputmode="decimal"></div>
+          <div class="field"><label for="cqty">How many pieces</label><input class="input" id="cqty" type="number" min="1" step="1" value="4" inputmode="numeric"></div>
+        </div>
+      </fieldset>
+      <div class="calc-out" aria-live="polite">
+        <div>
+          <span class="muted" style="font-size:14px">Mixed resin needed</span>
+          <strong id="outTotal">—</strong>
+          <div class="calc-split" id="outSplit"></div>
+        </div>
+      </div>
+      <div class="info-box" id="outRec" style="background:var(--teal-tint);border:0"></div>
+    </form>
+  </div>
+</section>
+</main>
+<div id="site-footer"></div>
+<script src="data/products.js"></script>
+<script src="data/catalog.js"></script>
+<script src="assets/js/app.js"></script>
+<script src="assets/js/calculator.js"></script>
+</body>
+</html>

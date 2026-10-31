@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Order placed — The Epoxy Studio</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='14' fill='%230A6A70'/></svg>">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body data-page="success">
+<div id="site-header"></div>
+<main id="main">
+<section class="section">
+  <div class="wrap" style="max-width:720px">
+    <div class="panel stack" style="gap:16px;padding:40px">
+      <span class="pill" style="align-self:flex-start;margin:0">Order placed</span>
+      <h1 class="h2">Thank you — your resin is on its way soon.</h1>
+      <p class="lead" id="okText">We've received your order.</p>
+      <div id="okLines"></div>
+      <p class="muted">We'll send updates on WhatsApp and email. While you wait, plan your first pour:</p>
+      <div class="row"><a class="btn btn-primary" id="trackLink" href="track.html">Track this order</a><a class="btn btn-outline" href="learn.html">Watch a tutorial</a></div>
+    </div>
+  </div>
+</section>
+</main>
+<div id="site-footer"></div>
+<script src="data/products.js"></script>
+<script src="data/catalog.js"></script>
+<script src="assets/js/app.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const ref = new URLSearchParams(location.search).get('ref') || '';
+  let o = null; try { o = JSON.parse(sessionStorage.getItem('tes-last-order')); } catch {}
+  $('#okText').innerHTML = `Your order number is <strong>${esc(ref)}</strong>.${o ? ` ${o.method === 'cod' ? `Please keep ${inr(o.total)} ready for cash on delivery.` : `We've received your payment of ${inr(o.total)}.`}` : ''}`;
+  $('#trackLink').href = `track.html?ref=${encodeURIComponent(ref)}`;
+  if (o && o.lines) $('#okLines').innerHTML = o.lines.map((l) => `<div class="totals"><span>${esc(l.name)} (${esc(l.variant)}) × ${l.qty}</span><strong>${inr(l.total)}</strong></div>`).join('');
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Contact &amp; bulk orders — The Epoxy Studio</title>
+<meta name="description" content="Questions, bulk and reseller orders, flooring and industrial epoxy enquiries.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='14' fill='%230A6A70'/></svg>">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body data-page="contact">
+<a class="skip" href="#main">Skip to content</a>
+<div id="site-header"></div>
+<main id="main">
+<section class="section">
+  <div class="wrap split" style="align-items:flex-start">
+    <div class="stack" style="gap:16px">
+      <h1 class="h1" style="font-size:clamp(40px,5vw,64px)" id="ctTitle">Talk to us.</h1>
+      <p class="lead" id="ctLead">Questions about a pour, an order or bulk pricing — we usually reply within a few hours on working days.</p>
+      <div class="info-box">
+        <div><span class="ic" data-i="whatsapp"></span><span>Fastest: <a class="wa-text" href="#">WhatsApp us</a></span></div>
+        <div><span class="ic" data-i="chat"></span><span>Email: <a id="ctEmail" href="#"></a></span></div>
+        <div><span class="ic" data-i="truck"></span><span>Studio: [Address], Bengaluru — visits by appointment</span></div>
+      </div>
+    </div>
+    <form class="panel stack" data-lead="contact" data-success="Thanks! We've got your message and will reply soon." novalidate style="gap:16px">
+      <div class="field"><label for="ctType">I'm writing about</label>
+        <select class="input" id="ctType" name="enquiry" required>
+          <option value="general">A question about products or a pour</option>
+          <option value="order">An order I've placed</option>
+          <option value="bulk">Bulk or reseller pricing</option>
+          <option value="industrial">Flooring, roofing or industrial epoxy</option>
+          <option value="grout">Epoxy grout</option>
+          <option value="collab">Collaboration or workshop hosting</option>
+        </select></div>
+      <div class="form-grid">
+        <div class="field"><label for="ctName">Name</label><input class="input" id="ctName" name="name" required autocomplete="name"></div>
+        <div class="field"><label for="ctPhone">Mobile number</label><input class="input" id="ctPhone" name="phone" type="tel" required autocomplete="tel"></div>
+        <div class="field full"><label for="ctMail">Email</label><input class="input" id="ctMail" name="email" type="email" required autocomplete="email"></div>
+        <div class="field full" id="bizRow" hidden><label for="ctCompany">Company (optional)</label><input class="input" id="ctCompany" name="company" autocomplete="organization"></div>
+        <div class="field full" id="qtyRow" hidden><label for="ctQty">Approximate quantity</label><input class="input" id="ctQty" name="quantity" placeholder="e.g. 50 kg per month, or 2,000 sq ft"></div>
+        <div class="field full"><label for="ctMsg">Message</label><textarea class="input" id="ctMsg" name="message" required></textarea></div>
+      </div>
+      <input class="hp" type="text" name="company_website" tabindex="-1" autocomplete="off" aria-hidden="true">
+      <button class="btn btn-primary" type="submit" style="border-radius:12px">Send message</button>
+      <p class="form-msg" role="status"></p>
+    </form>
+  </div>
+</section>
+</main>
+<div id="site-footer"></div>
+<script src="data/products.js"></script>
+<script src="data/catalog.js"></script>
+<script src="assets/js/app.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  $$(".ic").forEach((s) => (s.outerHTML = ICON[s.dataset.i]));
+  $$(".wa-text").forEach((a) => (a.href = waLink("Hi! I have a question.")));
+  $("#ctEmail").href = "mailto:" + SITE.email; $("#ctEmail").textContent = SITE.email;
+  const sel = $("#ctType");
+  const t = new URLSearchParams(location.search).get("type");
+  if (t && sel.querySelector(`option[value="${t}"]`)) sel.value = t;
+  const sync = () => {
+    const biz = ["bulk", "industrial", "grout", "collab"].includes(sel.value);
+    $("#bizRow").hidden = !biz; $("#qtyRow").hidden = !["bulk", "industrial", "grout"].includes(sel.value);
+    if (biz) { $("#ctTitle").textContent = "Business enquiries."; $("#ctLead").textContent = "Bulk resin, reseller pricing, flooring, roofing and grout projects. Tell us what you need and we will send a quote."; }
+    else { $("#ctTitle").textContent = "Talk to us."; $("#ctLead").textContent = "Questions about a pour, an order or bulk pricing — we usually reply within a few hours on working days."; }
+  };
+  sel.addEventListener("change", sync); sync();
+});
+</script>
+</body>
+</html>
